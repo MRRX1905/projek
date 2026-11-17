@@ -1,0 +1,186 @@
+<link rel="stylesheet" href="src/styles.css">
+
+<div id="app">
+  <a class="skip-link" href="#downloaderPanel">Skip to downloader</a>
+
+  <!-- ============ HEADER ============ -->
+  <header class="topbar" id="siteHeader">
+    <div class="wordmark" aria-label="TikDown home">
+      TIKDOWN<small>RAWGRAB · UTILITY / 001</small>
+    </div>
+    <div class="topbar-meta" aria-label="Utility status">
+      <span class="status-line"><span class="dot" id="navDot" aria-hidden="true"></span><span id="navStatusLabel">UTILITY / 001 · STANDBY</span></span>
+      <span class="model-line">MEDIA EXTRACTION INTERFACE — V1.0</span>
+    </div>
+    <nav class="nav" id="mainNav" aria-label="Primary">
+      <a href="#downloaderPanel">DOWNLOADER</a>
+      <a href="#howSection">HOW IT WORKS</a>
+      <a href="#aboutSection">ABOUT</a>
+    </nav>
+    <button class="menu-btn" id="menuBtn" aria-label="Open menu" aria-expanded="false" aria-controls="mainNav">MENU ☰</button>
+  </header>
+  <div class="marquee" aria-hidden="true"><span>PASTE A LINK YOU HAVE PERMISSION TO SAVE — THE SERVER CHECKS IT — YOU KEEP THE FILE — NO ACCOUNTS — NO CLUTTER — PASTE ▸ PROCESS ▸ DOWNLOAD —&nbsp;</span><span>PASTE A LINK YOU HAVE PERMISSION TO SAVE — THE SERVER CHECKS IT — YOU KEEP THE FILE — NO ACCOUNTS — NO CLUTTER — PASTE ▸ PROCESS ▸ DOWNLOAD —&nbsp;</span></div>
+
+  <!-- ============ HERO ============ -->
+  <section class="hero" aria-labelledby="heroTitle">
+    <div class="hero-left">
+      <p class="util-label">TIKDOWN / ARCHIVE TOOL — <span id="heroStateLabel">IDLE</span></p>
+      <h1 id="heroTitle">YOUR VIDEO.<br>YOUR ARCHIVE.</h1>
+      <p class="hero-copy">Save videos you have permission to download. No unnecessary complexity.</p>
+      <p class="hero-tech">MEDIA EXTRACTION INTERFACE — V1.0</p>
+      <div class="hero-actions">
+        <a class="btn red big" href="#downloaderPanel">START EXTRACTION ↓</a>
+        <a class="btn paper big" href="#howSection">HOW IT WORKS</a>
+      </div>
+    </div>
+    <aside class="hero-right" aria-label="Technical readout">
+      <div class="spec-row"><span>INPUT</span><b>TIKTOK URL</b></div>
+      <div class="spec-row"><span>SOURCE</span><b id="heroProviderLabel">TIKWM / OEMBED</b></div>
+      <div class="spec-row"><span>OUTPUT</span><b>AVAILABLE MEDIA</b></div>
+      <div class="spec-row"><span>MODE</span><b id="heroModeLabel">LIVE LOOKUP</b></div>
+      <div class="hero-note">ONLY FILES THE PROVIDER RETURNS ARE OFFERED. NO INVENTED QUALITIES. EXPIRED LINKS MUST BE RE-FETCHED.</div>
+    </aside>
+  </section>
+
+  <!-- ============ DOWNLOADER ============ -->
+  <main id="downloaderPanel" class="downloader-wrap" aria-label="TikTok downloader">
+    <section class="panel fetch-panel" aria-labelledby="fetchHeading">
+      <p class="section-tag"><span class="num">01</span> SOURCE URL <span class="rule"></span><span class="tag-right" id="fetchStateTag">IDLE</span></p>
+      <h2 id="fetchHeading" class="sr">Fetch a TikTok video</h2>
+      <form id="fetchForm" novalidate>
+        <label class="lbl" for="urlInput">PASTE TIKTOK VIDEO LINK <span class="hint">— whitespace is trimmed automatically</span></label>
+        <div class="input-row">
+          <input type="url" id="urlInput" name="tiktok-url" placeholder="Paste TikTok video link here..." autocomplete="off" spellcheck="false" inputmode="url" aria-describedby="urlHelp urlError" maxlength="2048">
+          <button type="button" class="btn paper" id="clearBtn" aria-label="Clear input">✕ CLEAR</button>
+        </div>
+        <div class="btn-row">
+          <button type="submit" class="btn red big" id="fetchBtn">FETCH VIDEO ↗</button>
+          <button type="button" class="btn ghost small" id="demoBtn">LOAD DEMO SAMPLE</button>
+          <button type="button" class="btn ghost small" id="pasteBtn">📋 PASTE</button>
+        </div>
+        <p class="helper" id="urlHelp">SUPPORTED URLS ONLY — tiktok.com video links, vm.tiktok.com / vt.tiktok.com short links. Profile or sound pages are rejected with an explanation.</p>
+        <p class="error" id="urlError" role="alert" hidden></p>
+        <div class="loading-block" id="loadingBlock" hidden aria-live="polite">
+          <span class="load-bar" aria-hidden="true"></span>
+          <span id="loadingText">CHECKING LINK…</span>
+        </div>
+      </form>
+      <p class="notice">Only download videos you have permission to save. Respect creators, copyright, privacy and TikTok's terms. Private or restricted videos cannot be retrieved.</p>
+    </section>
+
+    <!-- ============ RESULT ============ -->
+    <section class="panel result-panel" id="resultPanel" aria-labelledby="resultHeading" hidden>
+      <p class="section-tag"><span class="num">02</span> RESULT <span class="rule"></span><span class="tag-right success" id="resultStateTag">READY ✓</span></p>
+      <h2 id="resultHeading" class="result-title">VIDEO RESULT</h2>
+      <div class="demo-banner" id="demoBanner" hidden><b>DEMO MODE — SAMPLE METADATA.</b> This is <u>not</u> real TikTok content. It exists so you can test the interface when no provider is reachable.</div>
+      <div class="result-grid">
+        <div class="thumb-col">
+          <div class="thumb-frame">
+            <img id="thumbImg" alt="Video thumbnail" crossorigin="anonymous">
+            <span class="badge-src" id="srcBadge">TIKWM</span>
+          </div>
+          <video id="previewVideo" controls preload="metadata" playsinline hidden></video>
+          <p class="mono-line" id="metaLine1">—</p>
+          <p class="mono-line" id="metaLine2">—</p>
+        </div>
+        <div class="meta-col">
+          <p class="util-label">TITLE / DESCRIPTION</p>
+          <p class="video-title" id="videoTitle">—</p>
+          <p class="util-label">CREATOR</p>
+          <p class="creator-line"><img id="avatarImg" alt="" hidden><span id="creatorName">—</span></p>
+          <dl class="fact-grid" aria-label="Video facts">
+            <div><dt>DURATION</dt><dd id="factDuration">—</dd></div>
+            <div><dt>FILE SIZE</dt><dd id="factSize">—</dd></div>
+            <div><dt>VIDEO ID</dt><dd id="factId">—</dd></div>
+            <div><dt>SOURCE</dt><dd id="factSource">—</dd></div>
+          </dl>
+          <div id="downloadOptions" aria-live="polite"></div>
+          <p class="error" id="dlError" role="alert" hidden></p>
+          <div class="result-actions">
+            <button type="button" class="btn paper small" id="refetchBtn">↻ RE-FETCH (LINKS EXPIRE)</button>
+            <button type="button" class="btn ghost small" id="dismissBtn">DISMISS ✕</button>
+          </div>
+        </div>
+      </div>
+    </section>
+  </main>
+
+  <!-- ============ HOW IT WORKS ============ -->
+  <section id="howSection" class="how" aria-labelledby="howHeading">
+    <p class="section-tag"><span class="num">03</span> HOW IT WORKS <span class="rule"></span></p>
+    <h2 id="howHeading" class="how-title">THREE STEPS.<br>NO MAZE.</h2>
+    <div class="steps">
+      <article class="step"><span class="step-no" aria-hidden="true">01</span><h3>PASTE</h3><p>Paste a supported TikTok video link.</p><p class="step-fine">We trim it, check the host and the video path — profiles, sounds and hashtags are refused up front.</p></article>
+      <article class="step"><span class="step-no" aria-hidden="true">02</span><h3>PROCESS</h3><p>The server checks the link and retrieves available media information.</p><p class="step-fine">Timeouts, rate limits and expired links surface as plain errors — never as fake qualities.</p></article>
+      <article class="step"><span class="step-no" aria-hidden="true">03</span><h3>DOWNLOAD</h3><p>Download the available file to your device.</p><p class="step-fine">Only buttons backed by a real provider URL are shown. Each file downloads with its real type.</p></article>
+    </div>
+  </section>
+
+  <!-- ============ STATUS STRIP ============ -->
+  <section class="statusbar" id="statusStrip" data-s="idle" aria-label="Technical status" role="status" aria-live="polite">
+    <span class="st-cell"><span class="k">SYSTEM STATUS</span><b id="stSystem">READY</b></span>
+    <span class="st-cell"><span class="k">INPUT</span><b id="stInput">—</b></span>
+    <span class="st-cell"><span class="k">OUTPUT</span><b id="stOutput">—</b></span>
+    <span class="st-cell"><span class="k">PROVIDER</span><b id="stProvider">UNCHECKED</b></span>
+    <span class="st-cell"><span class="k">VERSION</span><b>1.0.0</b></span>
+    <span class="st-lamp" id="stLamp" aria-hidden="true"></span>
+  </section>
+
+  <!-- ============ ABOUT ============ -->
+  <section id="aboutSection" class="about" aria-labelledby="aboutHeading">
+    <p class="section-tag"><span class="num">04</span> ABOUT / SPEC <span class="rule"></span></p>
+    <h2 id="aboutHeading">WHAT THIS<br>TOOL IS.</h2>
+    <p class="about-copy">TikDown (RAWGRAB utility 001) is an independent underground web tool: a thin honest client over a maintained extraction provider. It shows only what the provider returns — watermarked video, unwatermarked video and audio <em>only when the provider supplies them</em> — and says so when something is unavailable.</p>
+    <table class="spec-table">
+      <tr><th>FEATURE</th><th>STATUS</th></tr>
+      <tr><td>URL validation (host + video-path allowlist, trim, Enter, no double-submit)</td><td><b>FUNCTIONAL</b></td></tr>
+      <tr><td>Live lookup via TikWM API (no key) + official TikTok oEmbed fallback</td><td><b>FUNCTIONAL — needs network; provider rate limits apply</b></td></tr>
+      <tr><td>Provider adapter: resolveVideo / getDownloadOptions / getProviderStatus</td><td><b>FUNCTIONAL — see src/tiktokProvider.js</b></td></tr>
+      <tr><td>Real file downloads (blob + expiry / size / type checks, direct-open fallback)</td><td><b>FUNCTIONAL</b></td></tr>
+      <tr><td>Demo sample mode (explicit button, labeled, never passed off as TikTok)</td><td><b>FUNCTIONAL</b></td></tr>
+      <tr><td>Server-side key proxy / custom Node backend</td><td><b>NOT NEEDED — providers used here require no secret; a Node outline is in src/README.md</b></td></tr>
+      <tr><td>Private / login-walled / removed videos</td><td><b>NOT RETRIEVABLE — reported as errors by design</b></td></tr>
+    </table>
+    <p class="about-copy small">STACK: PERCHANCE NATIVE (main.pjs + index.html + src/ ES MODULES) — mirrors the React/Vite spec 1:1: Header · Hero · DownloaderForm · VideoResult · DownloadOptions · HowItWorks · StatusBar · Footer. No build step, no secret in browser code.</p>
+  </section>
+
+  <!-- ============ FOOTER ============ -->
+  <footer>
+    <div class="foot-brand"><b>RAWGRAB</b> / TIKDOWN <span>© <span id="genYear">2026</span></span></div>
+    <nav class="foot-links" aria-label="Footer">
+      <button type="button" class="flink" data-modal="privacyModal">PRIVACY</button>
+      <button type="button" class="flink" data-modal="termsModal">TERMS</button>
+      <button type="button" class="flink" data-modal="contactModal">CONTACT</button>
+      <span class="fver">V1.0.0</span>
+    </nav>
+    <p class="foot-fine">© 2026 RAWGRAB / TikDown. Independent utility — not affiliated with or endorsed by TikTok / ByteDance. Media is served by third-party providers and remains the property of its creators; download only what you have permission to save. Submitted links are used for lookup only and are not stored.</p>
+  </footer>
+</div>
+
+<!-- modals -->
+<div class="modal" id="privacyModal" hidden role="dialog" aria-modal="true" aria-labelledby="privacyTitle">
+  <div class="modal-box">
+    <p class="section-tag"><span class="num">P</span> PRIVACY <span class="rule"></span></p>
+    <h3 id="privacyTitle">PRIVACY NOTICE</h3>
+    <p>Links you paste are sent to the lookup provider to resolve that video — nothing else. We do not keep a history of your links on any server, we set no tracking cookies, and there are no accounts. Provider responses (thumbnails, CDN file URLs) expire; re-fetch if a download goes stale. Demo mode never leaves your browser.</p>
+    <button type="button" class="btn paper small modal-close">CLOSE ✕</button>
+  </div>
+</div>
+<div class="modal" id="termsModal" hidden role="dialog" aria-modal="true" aria-labelledby="termsTitle">
+  <div class="modal-box">
+    <p class="section-tag"><span class="num">T</span> TERMS <span class="rule"></span></p>
+    <h3 id="termsTitle">USAGE TERMS</h3>
+    <p>Download only videos you own or have explicit permission to save. Respect copyright, privacy, performer rights and TikTok's Terms of Service. Private, deleted, age-gated or region-blocked videos will fail — that is intentional. Do not use this tool to re-upload other people's work without consent, and do not use it to harass or dox anyone.</p>
+    <button type="button" class="btn paper small modal-close">CLOSE ✕</button>
+  </div>
+</div>
+<div class="modal" id="contactModal" hidden role="dialog" aria-modal="true" aria-labelledby="contactTitle">
+  <div class="modal-box">
+    <p class="section-tag"><span class="num">C</span> CONTACT <span class="rule"></span></p>
+    <h3 id="contactTitle">CONTACT</h3>
+    <p>RAWGRAB utility desk — for provider outages, false rejections of valid links, or takedown requests, include the video ID (never passwords or private data). This demo build has no backend mailbox; in production wire this to your support address.</p>
+    <button type="button" class="btn paper small modal-close">CLOSE ✕</button>
+  </div>
+</div>
+
+<script type="module" src="src/app.js"></script>

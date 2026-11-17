@@ -1,0 +1,9 @@
+$meta
+  title = TikDown — TikTok Video Downloader
+  shortTitle = TikDown
+  description = TikDown is a raw neo-brutalist utility for saving TikTok videos you have permission to download. Paste a link, fetch available media info, download the provider-supplied file.
+  tags = tiktok, downloader, video, utility, brutalist, archive
+  header
+    mode = minimal
+
+superFetch = {import:super-fetch-plugin}
